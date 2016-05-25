@@ -49,9 +49,9 @@ elif difficulty == 4:
 # default settings :)
 curses.initscr()
 curses.start_color()
-box = curses.newwin(43, 148, 1, 1)
+box = curses.newwin(45, 150, 0, 0)
 box.border(0)
-win = curses.newwin(45, 150, 0, 0)
+win = curses.newwin(43, 146, 1, 2)
 win.keypad(1)
 curses.noecho()
 curses.curs_set(0)
@@ -65,13 +65,14 @@ box.nodelay(1)
 # colors definte
 # def color of snake
 curses.init_pair(1, curses.COLOR_GREEN, curses.COLOR_GREEN)
-# def color of background
+# def colours
 curses.init_pair(2, curses.COLOR_YELLOW, curses.COLOR_BLACK)
 curses.init_pair(3, curses.COLOR_RED, curses.COLOR_BLACK)
 curses.init_pair(4, curses.COLOR_YELLOW, curses.COLOR_YELLOW)
-# set color of bg
+# set color of bgs
 win.bkgd(" ", curses.color_pair(2))
-box.bkgd(" ", curses.color_pair(2))
+box.bkgd(" ", curses.color_pair(3))
+box.refresh()
 score = 0
 # Initializing values
 key = KEY_RIGHT
@@ -133,12 +134,12 @@ while key != 27:
     # If snake crosses the boundaries, make it enter from the other side
     if mode == 1:
         if snake[0][0] == 0:
-            snake[0][0] = 43
+            snake[0][0] = 41
         if snake[0][1] == 0:
-            snake[0][1] = 148
-        if snake[0][0] == 44:
+            snake[0][1] = 144
+        if snake[0][0] == 42:
             snake[0][0] = 1
-        if snake[0][1] == 149:
+        if snake[0][1] == 145:
             snake[0][1] = 1
     # Exit if snake crosses the boundaries
     if mode == 2:
@@ -169,12 +170,12 @@ while key != 27:
         score += 1
         while food1 == []:
             # Calculating next food's coordinates
-            food1 = [randint(1, 43), randint(1, 148)]
+            food1 = [randint(2, 41), randint(2, 146)]
             if food1 in snake:
                 food1 = []
-            if food1[0] == 10 and food1[1] <= 20:
+            if food1[0] == y and food1[1] <= 20:
                 food1 = []
-            if food1[0] <= 40 and food1[1] == 20:
+            if food1[0] <= 40 and food1[1] == x:
                 food1 = []
         win.addch(food1[0], food1[1], '*')
     # When snake eats the food
@@ -183,9 +184,11 @@ while key != 27:
         score += 1
         while food2 == []:
             # Calculating next food's coordinates
-            food2 = [randint(1, 43), randint(1, 148)]
-            if food2 == 10 and food2 <= 20:
-                food1 = []
+            food2 = [randint(2, 41), randint(2, 146)]
+            if food2[0] == y and food2[1] <= 20:
+                food2 = []
+            if food2[0] <= 40 and food2[1] == x:
+                food2 = []
             if food2 in snake:
                 food2 = []
         win.addch(food2[0], food2[1], '*')

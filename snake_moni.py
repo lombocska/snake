@@ -6,22 +6,32 @@ from curses import KEY_RIGHT, KEY_LEFT, KEY_UP, KEY_DOWN
 from random import randint
 
 
+def appears_wall_vertical(x, wall_type):
+    if wall_type == 1:
+        for i in range(1, 21):
+            win.addstr(i, x, chr(176), curses.color_pair(4))
+            win.refresh()
+    if wall_type == 2:
+        for i in range(1, 21):
+            win.addstr(42-i, x, chr(176), curses.color_pair(4))
+            win.refresh()
+
+
+def appears_wall_horizontal(y, wall_type):
+    if wall_type == 1:
+        for i in range(1, 21):
+            win.addstr(y, i, chr(1126), curses.color_pair(4))
+            win.refresh()
+    if wall_type == 2:
+        for i in range(1, 21):
+            win.addstr(y, 145-i, chr(1126), curses.color_pair(4))
+            win.refresh()
+
+
 def GameOver():
     win.addstr(22, 70, "GAME OVER")
     win.refresh()
     time.sleep(3)
-
-
-def appears_wall_vertical(x):
-    for i in range(1, 21):
-        win.addstr(i, x, chr(176), curses.color_pair(4))
-        win.refresh()
-
-
-def appears_wall_horizontal(y):
-    for i in range(1, 21):
-        win.addstr(y, i, chr(1126), curses.color_pair(4))
-        win.refresh()
 
 
 """CHOOSE MODE"""
@@ -67,8 +77,11 @@ score = 0
 key = KEY_RIGHT
 timer = 0
 timer2 = 0
-x = randint(60, 80)
-y = randint(10, 20)
+x1 = randint(60, 80)
+y1 = randint(10, 20)
+x2 = randint(100, 130)
+y2 = randint(30, 40)
+# endmusic =
 
 """DEFINING SNAKE AND FOOD"""
 snake = [[4, 10], [4, 9], [4, 8]]  # Initial snake co-ordinates
@@ -136,52 +149,68 @@ while key != 27:
             GameOver()
             break
     if score == 5:
-        appears_wall_vertical(x)
-
+        appears_wall_vertical(x1, 1)
     if score == 10:
-        appears_wall_horizontal(y)
+        appears_wall_vertical(x2, 2)
+    if score == 20:
+        appears_wall_horizontal(y1, 1)
+    if score == 30:
+        appears_wall_horizontal(y2, 2)
 
     """ Events of gameover"""
     if snake[0] in snake[1:]:
         GameOver()
         break
 
-    if (snake[0][1] == x and snake[0][0] <= 20 and score >= 5):
+    if (snake[0][1] == x1 and snake[0][0] <= 20 and score >= 5):
         GameOver()
         break
-
-    if (snake[0][0] == y and snake[0][1] <= 20 and score >= 10):
+    if (snake[0][1] == x2 and snake[0][0] >= 22 and score >= 10):
         GameOver()
         break
-
+    if (snake[0][0] == y1 and snake[0][1] <= 20 and score >= 20):
+        GameOver()
+        break
+    if (snake[0][0] == y2 and snake[0][1] >= 125 and score >= 30):
+        GameOver()
+        break
     """ When snake eats the food1"""
     if snake[0] == food1:
         food1 = []
         score += 1
         while food1 == []:
             # Calculating next food's coordinates
-            food1 = [randint(2, 41), randint(2, 146)]
+            food1 = [randint(2, 41), randint(2, 145)]
             if food1 in snake:
                 food1 = []
-            if food1[0] == y and food1[1] <= 20:
+            elif food1[0] == y1 and food1[1] <= 20:
                 food1 = []
-            if food1[0] <= 40 and food1[1] == x:
+            elif food1[0] <= 40 and food1[1] == x1:
+                food1 = []
+            elif food1[0] == y2 and food1[1] >= 125:
+                food1 = []
+            elif food1[0] >= 22 and food1[1] == x2:
                 food1 = []
         win.addch(food1[0], food1[1], '*')
 
     """ When snake eats the food2"""
-    elif snake[0] == food2:
+    if snake[0] == food2:
         food2 = []
         score += 1
         while food2 == []:
             # Calculating next food's coordinates
-            food2 = [randint(2, 41), randint(2, 146)]
-            if food2[0] == y and food2[1] <= 20:
-                food2 = []
-            if food2[0] <= 40 and food2[1] == x:
-                food2 = []
+            food2 = [randint(2, 41), randint(2, 145)]
             if food2 in snake:
                 food2 = []
+            elif food2[0] == y1 and food2[1] <= 20:
+                food2 = []
+            elif food2[0] <= 40 and food2[1] == x1:
+                food2 = []
+            elif food2[0] == y2 and food2[1] >= 125:
+                food2 = []
+            elif food2[0] >= 22 and food2[1] == x2:
+                food2 = []
+
         win.addch(food2[0], food2[1], '*')
     else:
         # If it does not eat the food, length decreases
@@ -193,6 +222,7 @@ while key != 27:
     timer2 = int(timer)
 
 curses.endwin()
+
 print("\nScore:" + str(score))
 
 """THE END"""

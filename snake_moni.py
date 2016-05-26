@@ -77,9 +77,9 @@ score = 0
 key = KEY_RIGHT
 timer = 0
 timer2 = 0
-x1 = randint(60, 80)
+x1 = randint(50, 70)
 y1 = randint(10, 20)
-x2 = randint(100, 130)
+x2 = randint(100, 120)
 y2 = randint(30, 40)
 # endmusic =
 
@@ -145,7 +145,7 @@ while key != 27:
 
     """ Exit if snake crosses the boundaries"""
     if mode == 2:
-        if snake[0][0] == 0 or snake[0][0] == 44 or snake[0][1] == 0 or snake[0][1] == 149:
+        if snake[0][0] == 0 or snake[0][0] == 42 or snake[0][1] == 0 or snake[0][1] == 145:
             GameOver()
             break
     if score == 5:

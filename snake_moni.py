@@ -54,7 +54,7 @@ elif difficulty == 4:
 curses.initscr()
 curses.start_color()
 box = curses.newwin(45, 150, 0, 0)
-box.border(0)
+box.border("M", "Z", "M", "Z", "M", "Z", "M", "Z")
 win = curses.newwin(43, 146, 1, 2)
 win.keypad(1)
 curses.noecho()
@@ -71,6 +71,7 @@ curses.init_pair(4, curses.COLOR_BLACK, curses.COLOR_YELLOW)        # def colour
 win.bkgd(" ", curses.color_pair(2))                                 # set color of WINDOW
 box.bkgd(" ", curses.color_pair(3))                                 # set color of BOX
 box.refresh()
+
 score = 0
 
 """INITIALIZING VALUES"""
@@ -94,7 +95,7 @@ win.addch(food2[0], food2[1], '*')  # Prints the food2
 
 """ GAME PROCESS"""
 while key != 27:
-    box.border(0)                                                 # While Esc key is not pressed
+    # While Esc key is not pressed
     win.border(0)
 
     win.addstr(0, 10, 'Score : ' + str(score) + ' ')              # Printing 'Score'
